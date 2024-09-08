@@ -1,0 +1,13 @@
+[package]
+name = "one-sat-ordinals"
+version = "0.0.1"
+edition = "2021"
+description = "Rust library 1SatOrdinals"
+authors = ["Daniel Connolly <daniel@dconnolly.com>"]
+repository = "https://github.com/Danconnolly/rs-1satordinals"
+readme = "README.md"
+license-file = "LICENSE"
+keywords = ["onesatordinals", "bsv", "bitcoinsv"]
+categories = ["development-tools",]
+
+[dependencies]
