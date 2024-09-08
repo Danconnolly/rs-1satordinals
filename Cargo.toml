@@ -11,3 +11,4 @@ keywords = ["onesatordinals", "bsv", "bitcoinsv"]
 categories = ["development-tools",]
 
 [dependencies]
+bitcoinsv = { git = "https://github.com/Danconnolly/rust-bitcoinsv.git"}
