@@ -1,6 +1,7 @@
 use std::collections::BTreeMap;
-use bitcoinsv::bitcoin::{Address, Operation, Outpoint, Tx, TxHash, TxOutput};
+use bitcoinsv::bitcoin::{Address, FromHex, Operation, Outpoint, Tx, TxHash, TxOutput};
 use bytes::Bytes;
+use log::trace;
 use crate::result::OrdinalResult;
 
 /// An OrdinalInscription is token data stored on-chain. It is used to define a token and assign its initial
@@ -57,9 +58,13 @@ impl OrdinalInscription {
         let mut result = Vec::new();
         let mut index = 0;
         for o in &tx.outputs {
+            trace!("scanning output {} of tx {}", index, tx.hash());
             match Self::scan_output(o, &tx.hash(), index) {
                 None => {},
-                Some(i) => result.push(i),
+                Some(i) => {
+                    trace!("found inscription {:?}", i);
+                    result.push(i);
+                },
             }
             index += 1;
         }
@@ -75,7 +80,7 @@ impl OrdinalInscription {
             None
         } else {
             match txo.script.decode() {
-                Ok(ops) => {
+                Ok((ops, trailing)) => {
                     let mut creation_data = BTreeMap::new();
                     let mut metadata = BTreeMap::new();
                     let mut key = 0i64;
@@ -85,14 +90,16 @@ impl OrdinalInscription {
                         match state {
                             State::Initial => {
                                 // looking for initial OP_FALSE
-                                if op == Operation::OP_FALSE || op == Operation::OP_0 {
+                                if op.eq_alias(&Operation::OP_FALSE) {
                                     state = State::OpFalseSeen;
+                                    trace!("found OP_FALSE");
                                 }
                             },
                             State::OpFalseSeen => {
                                 // next op must be OP_IF
                                 if op == Operation::OP_IF {
                                     state = State::OpIfSeen;
+                                    trace!("found OP_IF");
                                 } else {
                                     state = State::Initial;
                                 }
@@ -102,6 +109,7 @@ impl OrdinalInscription {
                                 match op.data_pushed() {
                                     None => { state = State::Initial; },
                                     Some(d) => {
+                                        trace!("found data push after OP_IF");
                                         if d.len() != 3 {
                                             state = State::Initial;
                                         } else if d.slice(0..3) == "ord" {
@@ -110,6 +118,7 @@ impl OrdinalInscription {
                                             metadata = BTreeMap::new();
                                             key = 0;
                                             state = State::InEnvelope;
+                                            trace!("in 1satordinal envelope");
                                         } else {
                                             state = State::Initial;
                                         }
@@ -122,6 +131,7 @@ impl OrdinalInscription {
                                     if let Some(v) = op.small_num_pushed() {
                                         key = v;
                                         state = State::GotKey;
+                                        trace!("got key {}", key);
                                     } else {
                                         // its not valid, go back to beginning
                                         state = State::Initial;
@@ -134,10 +144,12 @@ impl OrdinalInscription {
                             State::GotKey => {
                                 // got a key, next must be a value
                                 if op.is_data_push() {
+                                    let d = op.data_pushed()?;
+                                    trace!("got value, length {}", d.len());
                                     if key % 2 == 0 {
-                                        metadata.insert(key, op.data_pushed()?);
+                                        metadata.insert(key, d);
                                     } else {
-                                        creation_data.insert(key, op.data_pushed()?);
+                                        creation_data.insert(key, d);
                                     }
                                     if key == 0 {
                                         state = State::GotBody;
@@ -172,7 +184,10 @@ impl OrdinalInscription {
                     }
                     None
                 },
-                _err => { None }   // ignore scripts with errors
+                Err(err) => {
+                    trace!("error decoding script, ignoring, error={:?}", err);
+                    None
+                }   // ignore scripts with errors
             }
         }
     }
