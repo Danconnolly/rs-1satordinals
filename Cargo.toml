@@ -12,6 +12,7 @@ categories = ["development-tools",]
 
 [dependencies]
 bitcoinsv = { git = "https://github.com/Danconnolly/rust-bitcoinsv.git"}
+bytes = "1.7.1"
 
 [dev-dependencies]
 hex-literal = "0.4.1"
