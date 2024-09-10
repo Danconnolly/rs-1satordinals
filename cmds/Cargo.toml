@@ -1,8 +1,8 @@
 [package]
-name = "one-sat-ordinals"
+name = "one-sat-ordinals-cmds"
 version = "0.0.1"
 edition = "2021"
-description = "Rust library 1SatOrdinals"
+description = "Some commands for researching 1SatOrdinals"
 authors = ["Daniel Connolly <daniel@dconnolly.com>"]
 repository = "https://github.com/Danconnolly/rs-1satordinals"
 readme = "README.md"
@@ -11,8 +11,10 @@ keywords = ["onesatordinals", "bsv", "bitcoinsv"]
 categories = ["development-tools",]
 
 [dependencies]
-bitcoinsv = { git = "https://github.com/Danconnolly/rust-bitcoinsv.git"}
-bytes = "1.7.1"
+one-sat-ordinals = { path = "../lib"}
 
 [dev-dependencies]
-hex-literal = "0.4.1"
+
+[[bin]]
+name = "examinetx"
+path = "src/examinetx.rs"
