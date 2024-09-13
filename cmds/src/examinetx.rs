@@ -18,7 +18,7 @@ struct Args {
 fn main() {
     let args: Args = Args::parse();
     if args.trace {
-        simple_logger::init_with_level(log::Level::Warn).unwrap();
+        simple_logger::init_with_level(log::Level::Trace).unwrap();
     } else {
         simple_logger::init_with_level(log::Level::Warn).unwrap();
     }

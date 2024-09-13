@@ -15,13 +15,20 @@ and before the error so it may have been possible.
 
 * Deployment - [0da732c8b1a7e4a4292cc2d5bbb63d6394e5c39c95904b254473671da0adfbf8](https://whatsonchain.com/tx/0da732c8b1a7e4a4292cc2d5bbb63d6394e5c39c95904b254473671da0adfbf8)
 
+## PIXEL FOXES - 1SatOrdinals
+
+There are a lot of these.
+
+* Deployment #2460826 - [3f82d7c234dc456c5eff850f03875b313a0bda9497f78fab39baf29e41ebb1bb](https://whatsonchain.com/tx/3f82d7c234dc456c5eff850f03875b313a0bda9497f78fab39baf29e41ebb1bb) index 38
+
+
 ## LOL - BSV-20
 
 * Deployment - [8cc490114ee8013a741733fb9a51cb875a01f05ec5c4aeb5ec2e17ca31554e6e](https://whatsonchain.com/tx/8cc490114ee8013a741733fb9a51cb875a01f05ec5c4aeb5ec2e17ca31554e6e) 
 
 ## OIL - BSV-21
 
-* Note: strange deployment script, see above.
+* Deployment created with lock? - https://docs.1satordinals.com/ordinal-lock
 * Deployment - [7ab0b8c2c4cc67e2fc01317de1618e619765ca3b1ba43f637fbed3f44d7ab002](https://whatsonchain.com/tx/7ab0b8c2c4cc67e2fc01317de1618e619765ca3b1ba43f637fbed3f44d7ab002)
 * [Market](https://1sat.market/market/bsv21/7ab0b8c2c4cc67e2fc01317de1618e619765ca3b1ba43f637fbed3f44d7ab002_0)
 
@@ -31,5 +38,5 @@ and before the error so it may have been possible.
 
 ## SCALES - BSV-21
 
-* Note: strange deployment script similar to OIL
+* Deployment created with lock?
 * Deployment - [157bf3b7104c0badfa88fee9851d1b4cb601760828478f95dfdddbab6c5a238c](https://whatsonchain.com/tx/157bf3b7104c0badfa88fee9851d1b4cb601760828478f95dfdddbab6c5a238c)

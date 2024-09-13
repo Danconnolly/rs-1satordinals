@@ -1,5 +1,5 @@
 use std::collections::BTreeMap;
-use bitcoinsv::bitcoin::{Address, FromHex, Operation, Outpoint, Tx, TxHash, TxOutput};
+use bitcoinsv::bitcoin::{Address, ByteSequence, FromHex, Operation, Outpoint, Tx, TxHash, TxOutput};
 use bytes::Bytes;
 use log::trace;
 use crate::result::OrdinalResult;
@@ -35,6 +35,9 @@ pub struct OrdinalInscription {
     pub creation_data: BTreeMap<i64, Bytes>,
     /// Metadata. The Ordinals specification defines odd numbered fields as metadata fields.
     pub metadata: BTreeMap<i64, Bytes>,
+    /// Trailing data. The 1SatOrdinals specification includes more metadata fields in the
+    /// trailing data (after OP_RETURN) of the output.
+    pub trailing: Option<ByteSequence>,
 }
 
 impl OrdinalInscription {
@@ -177,6 +180,7 @@ impl OrdinalInscription {
                                         must_be_creation: false,
                                         creation_data,
                                         metadata,
+                                        trailing,
                                     })
                                 }
                             },
